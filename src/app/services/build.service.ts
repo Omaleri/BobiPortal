@@ -1,31 +1,30 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { GlobalService } from './global.service';
+import { BuildModel } from '../model/build.model';
 
 @Injectable({
   providedIn: 'root'
 })
 export class BuildService {
-  constructor(private http: HttpClient) {}
+   /** Controller Adresi */
+   private controllerPath='/build'
 
-  getProvinces(city: string): Observable<string[]> {
-    // Şehre göre il bilgilerini getiren servis çağrısı (backend'e uygun şekilde güncellenmelidir)
-    // Örnek bir çağrı:
-    // return this.http.get<string[]>(`backend/api/provinces?city=${city}`);
-    return this.http.get<string[]>('assets/provinces.json'); // Örnek veri kullanılıyor
-  }
+   /**
+    * Http Ayarları
+    */
+   httpOptions= { heraders:new HttpHeaders({
+     'Content-Type':'application/json; charset=UTF-8'
+   })};
+  constructor( private globalService:GlobalService,private httpClient: HttpClient) {}
 
-  getTowns(province: string): Observable<string[]> {
-    // İl'e göre kasaba/şehir bilgilerini getiren servis çağrısı (backend'e uygun şekilde güncellenmelidir)
-    // Örnek bir çağrı:
-    // return this.http.get<string[]>(`backend/api/towns?province=${province}`);
-    return this.http.get<string[]>('assets/towns.json'); // Örnek veri kullanılıyor
+  /**
+   * Bütün device tablosundaki verileri getirir.
+   * @return {any} Dönüş Değeri
+   */
+   getListAsync():Observable<BuildModel[]> {
+    return this.httpClient.get<BuildModel[]>(this.globalService.baseUrl+ this.controllerPath+'/GetListAsync').pipe();
   }
-
-  createProduct(product: any): Observable<any> {
-    // Yeni ürün oluşturan servis çağrısı (backend'e uygun şekilde güncellenmelidir)
-    // Örnek bir çağrı:
-    // return this.http.post('backend/api/createProduct', product);
-    return this.http.post('assets/createProduct.json', product); // Örnek veri kullanılıyor
-  }
+ 
 }

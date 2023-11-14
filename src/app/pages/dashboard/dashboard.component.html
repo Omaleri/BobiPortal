@@ -5,25 +5,21 @@
       <th>Situation</th>
       <th>Number of Floors</th>
       <th>Type of Features</th>
+      <th> Action</th>
     </tr>
   </thead>
   <tbody>
     <tr *ngFor="let item of dashboardData">
-      <td>{{ item.address }}</td>
+      <td>{{ item.addressId }}</td>
       <td [ngClass]="{'green-text': item.situation, 'red-text': !item.situation}">
         <i class="bi bi-question-square-fill"></i>
       </td>
       <td>{{ item.numberOfFloors }}</td>
-      <td>{{ item.typeOfFeatures }}</td>
+      <td>{{ item.typeOfFeature }}</td>
+      <td  class="text-center">
+        <button (click)="goToUrl('/info',item);" class="btn btn-info" > <i class="bi bi-info-circle"></i>  More Info</button>
+      
+      </td>
     </tr>
   </tbody>
 </table>
-<tfoot>
-  <tr>
-    <td colspan="4" class="text-center">
-      <a routerLink="/info" class="btn btn-info">
-        <i class="bi bi-info-circle"></i> More Info
-      </a>
-    </td>
-  </tr>
-</tfoot>

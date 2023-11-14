@@ -1,4 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+import { BuildModel } from 'src/app/model/build.model';
+import { BuildService } from 'src/app/services/build.service';
 import { DashboardService } from './dashboard.service';
 
 @Component({
@@ -7,18 +10,33 @@ import { DashboardService } from './dashboard.service';
   styleUrls: ['./dashboard.component.css']
 })
 export class DashboardComponent implements OnInit {
-  dashboardData: any[] = [];
+  dashboardData: BuildModel[]=[];
+  public static selectedRow:any;
+  /** Oluşturucu */
+  constructor(private dashboardService: DashboardService, 
+    private buildService:BuildService,
+    private router:Router) {}
 
-  constructor(private dashboardService: DashboardService) {}
-
+  /** Sayfa Yüklendiğinde Çalışacak methodlar */
   ngOnInit(): void {
-    this.getDashboardData();
+    this.getBuildList();
   }
 
-  getDashboardData(): void {
-    this.dashboardService.getDashboardData().subscribe((data: any[]) => {
+  getBuildList(): void {
+    this.buildService.getListAsync().subscribe((data) => {
       this.dashboardData = data;
+      console.log(data);
     });
+  }
+
+  /**
+   * 
+   * @param url Yönlendirilecek Sayfa Url
+   */
+  goToUrl(url:string, data:any) {
+    console.log(url);
+    DashboardComponent.selectedRow=data;
+    this.router.navigateByUrl(url);
   }
 
 }

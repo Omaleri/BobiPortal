@@ -1,6 +1,7 @@
 // info.component.ts
 
 import { Component, Input } from '@angular/core';
+import { DashboardComponent } from '../dashboard/dashboard.component';
 
 @Component({
   selector: 'app-info',
@@ -8,14 +9,10 @@ import { Component, Input } from '@angular/core';
   styleUrls: ['./info.component.css']
 })
 export class InfoComponent {
-  @Input() address: any;
-  @Input()
+  address: any;
   typeOfFeatures!: string;
-  @Input()
   numberOfFloors!: number;
-  @Input()
   voiceVolume!: number;
-  @Input()
   devices!: any[]; // Devices listesi
   showVoiceListFlag: boolean = false; // Voice List'in görünürlüğünü kontrol etmek için bayrak
   voiceList: any[] = [
@@ -28,7 +25,9 @@ export class InfoComponent {
 
   ngOnInit() {
     // Address içeriğini birleştirerek fullAddress'e ata
-    this.fullAddress = `${this.address.city} - ${this.address.province} - ${this.address.town} - ${this.address.street} - ${this.address.number} - ${this.address.openAddress || ''}`;
+    // this.fullAddress = `${this.address.city} - ${this.address.province} - ${this.address.town} - ${this.address.street} - ${this.address.number} - ${this.address.openAddress || ''}`;
+    console.log(DashboardComponent.selectedRow);
+    this.devices=DashboardComponent.selectedRow;
   }
 
   toggleVoiceList() {
