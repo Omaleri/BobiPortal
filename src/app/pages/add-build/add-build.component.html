@@ -1,0 +1,47 @@
+<!-- build.component.html -->
+
+<div>
+    <!-- Address Section -->
+    <label>City:</label>
+    <select [(ngModel)]="selectedCity" (change)="onCityChange()">
+      <option *ngFor="let city of cities" [ngValue]="city">{{ city.name }}</option>
+    </select>
+  
+    <label>Province:</label>
+    <select [(ngModel)]="selectedProvince" *ngIf="selectedCity">
+      <option *ngFor="let province of selectedCity.provinces" [ngValue]="province">{{ province.name }}</option>
+    </select>
+  
+    <label>Town:</label>
+    <select [(ngModel)]="selectedTown" *ngIf="selectedProvince">
+      <option *ngFor="let town of selectedProvince.towns" [ngValue]="town">{{ town.name }}</option>
+    </select>
+  
+    <label>Street:</label>
+    <select [(ngModel)]="selectedStreet" *ngIf="selectedTown">
+      <option *ngFor="let street of selectedTown.streets" [ngValue]="street">{{ street.name }}</option>
+    </select>
+  
+    <label>Number:</label>
+    <select [(ngModel)]="selectedNumber" *ngIf="selectedStreet">
+      <option *ngFor="let number of selectedStreet.numbers" [ngValue]="number">{{ number }}</option>
+    </select>
+  
+    <label>Open Address:</label>
+    <input type="text" [(ngModel)]="openAddress">
+  
+    <!-- Number of Floors and Type of Features Section -->
+    <label>Number of Floors:</label>
+    <input type="number" [(ngModel)]="numberOfFloors">
+  
+    <label>Type of Features:</label>
+    <input type="text" [(ngModel)]="typeOfFeatures">
+  
+    <!-- Device Section -->
+    <div *ngFor="let device of devices; let i = index">
+      <label>Device {{ i + 1 }}:</label>
+      <input type="text" [(ngModel)]="devices[i]">
+    </div>
+    <button (click)="save()">Kaydet</button>
+  </div>
+  

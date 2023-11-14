@@ -1,0 +1,66 @@
+<!-- info.component.html -->
+
+<div class="info-container">
+  <!-- Address Section -->
+  <div class="section">
+    <h2>Address</h2>
+    <div class="form-group">
+      <label>Address:</label>
+      <input type="text" [(ngModel)]="fullAddress" disabled>
+    </div>
+  </div>
+
+  <!-- Type Of Features Section -->
+  <div class="section">
+    <h2>Type Of Features</h2>
+    <div class="form-group">
+      <label>Type:</label>
+      <input type="text" [(ngModel)]="typeOfFeatures" disabled>
+    </div>
+  </div>
+
+  <!-- Number Of Floors Section -->
+  <div class="section">
+    <h2>Number Of Floors</h2>
+    <div class="form-group">
+      <label>Number:</label>
+      <input type="text" [(ngModel)]="numberOfFloors" disabled>
+    </div>
+  </div>
+
+  <!-- Devices Section -->
+  <div class="section">
+    <h2>Devices</h2>
+    <div class="form-group">
+      <label>Devices:</label>
+      <ul>
+        <li *ngFor="let device of devices">
+          {{ device.name }} - Volume: {{ device.volume }}
+        </li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- Voice Section -->
+  <div class="section">
+    <h2>
+      <button (click)="toggleVoiceList()">Voice List</button>
+    </h2>
+    <div *ngIf="showVoiceListFlag" class="form-group">
+      <table>
+        <thead>
+          <tr>
+            <th>Voice Name</th>
+            <th>Voice Date</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let voice of voiceList">
+            <td>{{ voice.name }}</td>
+            <td>{{ voice.date }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

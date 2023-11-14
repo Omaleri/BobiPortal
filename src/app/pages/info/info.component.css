@@ -1,0 +1,71 @@
+/* info.component.css */
+
+.info-container {
+    width: 80%;
+    margin: 20px auto;
+  }
+  
+  .section {
+    margin-bottom: 30px;
+  }
+  
+  h2 {
+    color: #333;
+  }
+  
+  .form-group {
+    margin-bottom: 15px;
+  }
+  
+  label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+  }
+  
+  select,
+  input {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+  }
+  
+  input[type="range"] {
+    width: 100%;
+  }
+  
+  .table-container {
+    margin-top: 10px; /* Tablo ile diğer içerik arasında bir boşluk bırakır */
+  }
+  
+  table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  
+  th, td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: left;
+  }
+  
+  th {
+    background-color: #f2f2f2;
+  }
+  
+  /* Boşluklu hücre stil kuralları */
+  td.space-between {
+    position: relative;
+  }
+  
+  td.space-between::after {
+    content: '';
+    position: absolute;
+    height: 100%;
+    width: 1px;
+    background-color: #ddd;
+    right: 0;
+    top: 0;
+  }

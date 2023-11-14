@@ -1,0 +1,49 @@
+.green-text {
+    color: green;
+  }
+  
+  .red-text {
+    color: red;
+  }
+  
+  .build-list-table {
+    margin-left: 250px;
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+  }
+
+
+  .build-list-table th, .build-list-table td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: left;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+  }
+  
+  .build-list-table th {
+    background-color: #f2f2f2;
+  }
+  
+  .green-text {
+    color: green;
+  }
+  
+  .red-text {
+    color: red;
+  }
+  
+  .btn-info {
+    background-color: #5bc0de;
+    color: #fff;
+    text-decoration: none;
+    padding: 1px 17px;
+    border-radius: 4px;
+    margin-left: 1716px;
+  }
+  
+  .btn-info:hover {
+    background-color: #46b8da;
+  }
