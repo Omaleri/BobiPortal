@@ -3,13 +3,14 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { GlobalService } from './global.service';
 import { BuildModel } from '../model/build.model';
+import { CityModel } from '../model/city.model';
 
 @Injectable({
   providedIn: 'root'
 })
-export class BuildService {
+export class CityService {
    /** Controller Adresi */
-   private controllerPath='/build'
+   private controllerPath='/city'
 
    /**
     * Http Ayarları
@@ -23,13 +24,7 @@ export class BuildService {
    * Bütün device tablosundaki verileri getirir.
    * @return {any} Dönüş Değeri
    */
-   getListAsync():Observable<BuildModel[]> {
-    return this.httpClient.get<BuildModel[]>(this.globalService.baseUrl+ this.controllerPath+'/GetListAsync').pipe();
+   getCityListAsync():Observable<CityModel[]> {
+    return this.httpClient.get<CityModel[]>(this.globalService.baseUrl+ this.controllerPath+'/GetListAsync').pipe();
   }
-
-  deleteAsync(id: string): Observable<BuildModel[]> {
-    const url = `${this.globalService.baseUrl}${this.controllerPath}/Delete/${id}`;
-    return this.httpClient.delete<BuildModel[]>(url);
-  }
- 
 }

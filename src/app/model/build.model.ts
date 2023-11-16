@@ -1,8 +1,15 @@
 /** Build Modeli */
 export class BuildModel{
-     addressId :string | undefined ;
+
+     id:string='';
+     cityId:string ='';
+     provinceId:string='';
+     townId:string='';
+     streetId:string='';
+     numberId:string='';
      situation :boolean | undefined;
     numberOfFloors:number | undefined;
      typeOfFeature :string | undefined;
      dateOfDestructive:Date | undefined;
+     
 }

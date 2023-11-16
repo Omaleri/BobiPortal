@@ -1,16 +1,18 @@
 <table class="build-list-table">
   <thead>
     <tr>
+      <th>Id</th>
       <th>Address</th>
       <th>Situation</th>
       <th>Number of Floors</th>
       <th>Type of Features</th>
-      <th> Action</th>
+      <th>Action</th>
     </tr>
   </thead>
   <tbody>
-    <tr *ngFor="let item of dashboardData">
-      <td>{{ item.addressId }}</td>
+    <tr *ngFor="let item of dashboardData; ">
+      <td>{{ item.id }}</td>
+      <td>{{ getCityName(item.cityId) }}</td>
       <td [ngClass]="{'green-text': item.situation, 'red-text': !item.situation}">
         <i class="bi bi-question-square-fill"></i>
       </td>
@@ -18,7 +20,7 @@
       <td>{{ item.typeOfFeature }}</td>
       <td  class="text-center">
         <button (click)="goToUrl('/info',item);" class="btn btn-info" > <i class="bi bi-info-circle"></i>  More Info</button>
-      
+        <button class="btn btn-delete" (click)="confirmDelete(item.id)"> <i class="bi bi-trash"></i> Sil </button>
       </td>
     </tr>
   </tbody>
