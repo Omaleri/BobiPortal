@@ -10,6 +10,8 @@ import { ProvinceService } from 'src/app/services/province.service';
 import { TownService } from 'src/app/services/town.service';
 import { StreetService } from 'src/app/services/street.service';
 import { NumberService } from 'src/app/services/number.service';
+import { VoiceModel } from 'src/app/model/voice.model';
+import { VoiceService } from 'src/app/services/voice.service';
 
 
 @Component({
@@ -19,14 +21,16 @@ import { NumberService } from 'src/app/services/number.service';
 })
 export class InfoComponent {
 
+  deviceData: AddressModel[]=[];
   cityData: AddressModel[]=[];
   provinceData: AddressModel[]=[];
   townData: AddressModel[]=[];
   streetData: AddressModel[]=[];
   numberData: AddressModel[]=[];
+  voiceData: VoiceModel[]=[];
 
   selectedRow:any;
-  fullAddress:any;
+
   showVoiceListFlag: boolean = false; // Voice List'in görünürlüğünü kontrol etmek için bayrak
   voiceList: any[] = [
     { name: 'Voice 1', date: '2023-11-10' },
@@ -40,7 +44,8 @@ export class InfoComponent {
     private provinceService:ProvinceService,
     private townService:TownService,
     private streetService:StreetService,
-    private numberService:NumberService) {}
+    private numberService:NumberService,
+    private voiceService:VoiceService) {}
 
   ngOnInit() {
     this.getCityList();
@@ -50,8 +55,6 @@ export class InfoComponent {
     this.getNumberList();
     console.log(DashboardComponent.selectedRow);
     this.selectedRow = DashboardComponent.selectedRow;
-    this.fullAddress = `${this.getCityName(this.selectedRow.cityId)} - ${this.getProvinceName(this.selectedRow.provinceIdId)} - ${this.getTownName(this.selectedRow.townId)}
-     - ${this.getStreetName(this.selectedRow.streetId)} - ${this.getNumberName(this.selectedRow.numberId)}`;
   }
 
   getCityList(): void {
@@ -129,9 +132,15 @@ export class InfoComponent {
     return number ? number.name : '';
   }
 
-  getAddress(): void {
-    this.fullAddress = `${this.getCityName} - ${this.getProvinceName} - ${this.getTownName} - ${this.getStreetName} - ${this.getNumberName}`;
-  };
+  getFormattedDevices(): string {
+    if (!this.selectedRow || !this.selectedRow.device) {
+      return '';
+    }
+  
+    return this.selectedRow.device.map((device: { deviceName: any; id: any; }) => `Name: ${device.deviceName}      -       Id: ${device.id}`).join('     -     ');
+  }
+
+  
 
   toggleVoiceList() {
     // Voice List'i açma/kapatma işlemi

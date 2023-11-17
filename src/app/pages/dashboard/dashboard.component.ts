@@ -4,6 +4,8 @@ import { BuildModel } from 'src/app/model/build.model';
 import { BuildService } from 'src/app/services/build.service';
 import { AddressModel } from 'src/app/model/address.model';
 import { CityService } from 'src/app/services/city.service';
+import { VoiceService } from 'src/app/services/voice.service';
+import { VoiceModel } from 'src/app/model/voice.model';
 
 @Component({
   selector: 'app-dashboard',
@@ -12,6 +14,7 @@ import { CityService } from 'src/app/services/city.service';
 })
 export class DashboardComponent implements OnInit {
 
+  voiceData: VoiceModel | undefined;
   cityData: AddressModel[]=[];
   dashboardData: BuildModel[]=[];
   public static selectedRow:any;
@@ -19,12 +22,14 @@ export class DashboardComponent implements OnInit {
   /** Oluşturucu */
   constructor( private cityService:CityService,
     private buildService:BuildService,
-    private router:Router) {}
+    private router:Router,
+    private voiceService:VoiceService) {}
 
   /** Sayfa Yüklendiğinde Çalışacak methodlar */
   ngOnInit(): void {
     this.getBuildList();
     this.getCityList();
+    this.getVoice();
   }
 
   getBuildList(): void {
@@ -71,6 +76,13 @@ export class DashboardComponent implements OnInit {
   
     const city = this.cityData.find(c => c.id === cityId);
     return city ? city.name : '';
+  }
+
+  getVoice(): void{
+    this.voiceService.getVoiceListAsync().subscribe((data) =>{
+      this.voiceData = data;
+      console.log(data)
+    })
   }
 
   /**

@@ -28,17 +28,16 @@
   <div class="section">
     <h2>Devices</h2>
     <div class="form-group">
-      <label>Devices:</label>
-      <ul>
-        <li *ngFor="let device of selectedRow.devices">
-          {{ device.name }} - Volume: {{ device.volume }}
-        </li>
-      </ul>
+        <div class="form-group">
+          <label>Devices:</label>
+          <input type="text" [value]="getFormattedDevices()" disabled>
+        </div>
+      </div>
     </div>
   </div>
 
   <!-- Voice Section -->
-  <div class="section">
+  <div class="sectionVoice">
     <h2>
       <a (click)="toggleVoiceList()">Voice List</a>
     </h2>
@@ -59,4 +58,3 @@
       </table>
     </div>
   </div>
-</div>

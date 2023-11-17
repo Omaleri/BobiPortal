@@ -1,3 +1,5 @@
+import { VoiceModel } from "./voice.model";
+
 /** Build Modeli */
 export class BuildModel{
 
@@ -11,5 +13,5 @@ export class BuildModel{
     numberOfFloors:number | undefined;
      typeOfFeature :string | undefined;
      dateOfDestructive:Date | undefined;
-     
+     device:string='';
 }
