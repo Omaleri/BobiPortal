@@ -46,3 +46,15 @@
   .btn-info:hover {
     background-color: #46b8da;
   }
+
+  .btn-delete {
+    background-color: #5bc0de;
+    color: #fff;
+    text-decoration: none;
+    padding: 1px 17px;
+    border-radius: 4px;
+    margin-left: 8px;
+  }
+  .btn-delete:hover{
+    background-color: #46b8da;
+  }

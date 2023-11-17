@@ -1,5 +1,5 @@
 /** City Modeli */
-export class CityModel{
+export class AddressModel{
 
     id!: string;
     name!: string;

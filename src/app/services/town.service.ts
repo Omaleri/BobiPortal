@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, ProviderToken } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { GlobalService } from './global.service';
@@ -7,9 +7,9 @@ import { AddressModel } from '../model/address.model';
 @Injectable({
   providedIn: 'root'
 })
-export class CityService {
+export class TownService {
    /** Controller Adresi */
-   private controllerPath='/city'
+   private controllerPath='/town'
 
    /**
     * Http Ayarları
@@ -23,7 +23,7 @@ export class CityService {
    * Bütün device tablosundaki verileri getirir.
    * @return {any} Dönüş Değeri
    */
-   getCityListAsync():Observable<AddressModel[]> {
+   getTownListAsync():Observable<AddressModel[]> {
     return this.httpClient.get<AddressModel[]>(this.globalService.baseUrl+ this.controllerPath+'/GetListAsync').pipe();
   }
 }

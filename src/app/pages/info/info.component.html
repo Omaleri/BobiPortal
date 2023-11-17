@@ -1,12 +1,10 @@
-<!-- info.component.html -->
-
 <div class="info-container">
   <!-- Address Section -->
   <div class="section">
     <h2>Address</h2>
     <div class="form-group">
-      <label>Address:</label>
-      <input type="text" [(ngModel)]="fullAddress" disabled>
+      <input type="text" [value]="getTownName(selectedRow.townId) + ' Mahallesi,        ' + getStreetName(selectedRow.streetId) + ' Sokak,        No:' + getNumberName(selectedRow.numberId)
+       + ' ,        ' + getCityName(selectedRow.cityId) +'/'+ getProvinceName(selectedRow.provinceId) " disabled>
     </div>
   </div>
 
@@ -14,8 +12,7 @@
   <div class="section">
     <h2>Type Of Features</h2>
     <div class="form-group">
-      <label>Type:</label>
-      <input type="text" [(ngModel)]="typeOfFeatures" disabled>
+      <input type="text" [(ngModel)]="selectedRow.typeOfFeature" disabled>
     </div>
   </div>
 
@@ -23,8 +20,7 @@
   <div class="section">
     <h2>Number Of Floors</h2>
     <div class="form-group">
-      <label>Number:</label>
-      <input type="text" [(ngModel)]="numberOfFloors" disabled>
+      <input type="text" [(ngModel)]="selectedRow.numberOfFloors" disabled>
     </div>
   </div>
 
@@ -34,7 +30,7 @@
     <div class="form-group">
       <label>Devices:</label>
       <ul>
-        <li *ngFor="let device of devices">
+        <li *ngFor="let device of selectedRow.devices">
           {{ device.name }} - Volume: {{ device.volume }}
         </li>
       </ul>
@@ -44,7 +40,7 @@
   <!-- Voice Section -->
   <div class="section">
     <h2>
-      <button (click)="toggleVoiceList()">Voice List</button>
+      <a (click)="toggleVoiceList()">Voice List</a>
     </h2>
     <div *ngIf="showVoiceListFlag" class="form-group">
       <table>
@@ -55,7 +51,7 @@
           </tr>
         </thead>
         <tbody>
-          <tr *ngFor="let voice of voiceList">
+          <tr *ngFor="let voice of selectedRow.voiceList">
             <td>{{ voice.name }}</td>
             <td>{{ voice.date }}</td>
           </tr>

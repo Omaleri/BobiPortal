@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { BuildModel } from 'src/app/model/build.model';
 import { BuildService } from 'src/app/services/build.service';
-import { CityModel } from 'src/app/model/city.model';
+import { AddressModel } from 'src/app/model/address.model';
 import { CityService } from 'src/app/services/city.service';
 
 @Component({
@@ -12,7 +12,7 @@ import { CityService } from 'src/app/services/city.service';
 })
 export class DashboardComponent implements OnInit {
 
-  cityData: CityModel[]=[];
+  cityData: AddressModel[]=[];
   dashboardData: BuildModel[]=[];
   public static selectedRow:any;
 
