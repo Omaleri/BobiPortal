@@ -8,6 +8,9 @@ import { DashboardComponent } from './pages/dashboard/dashboard.component';
 import { BuildComponent } from './pages/add-build/add-build.component';
 import { LoginComponent } from './pages/login/login.component';
 import { InfoComponent } from './pages/info/info.component';
+import { ReactiveFormsModule } from '@angular/forms';
+
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -21,6 +24,7 @@ import { InfoComponent } from './pages/info/info.component';
     AppRoutingModule,
     HttpClientModule,
     FormsModule,
+    ReactiveFormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]

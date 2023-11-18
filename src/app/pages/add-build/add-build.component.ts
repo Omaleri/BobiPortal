@@ -1,24 +1,13 @@
 import { Component } from '@angular/core';
+import { AddressModel } from 'src/app/model/address.model';
+import { CityService } from 'src/app/services/city.service';
+import { ProvinceService } from 'src/app/services/province.service';
+import { TownService } from 'src/app/services/town.service';
+import { StreetService } from 'src/app/services/street.service';
+import { NumberService } from 'src/app/services/number.service';
+import { Router } from '@angular/router';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
-interface AddressItem {
-  name: string;
-  provinces: ProvinceItem[];
-}
-
-interface ProvinceItem {
-  name: string;
-  towns: TownItem[];
-}
-
-interface TownItem {
-  name: string;
-  streets: StreetItem[];
-}
-
-interface StreetItem {
-  name: string;
-  numbers: string[];
-}
 
 @Component({
   selector: 'add-build',
@@ -26,83 +15,98 @@ interface StreetItem {
   styleUrls: ['./add-build.component.css']
 })
 export class BuildComponent {
-  cities: AddressItem[] = [
-    {
-      name: 'Kocaeli',
-      provinces: [
-        {
-          name: 'Izmit',
-          towns: [
-            {
-              name: 'Merkez',
-              streets: [
-                {
-                  name: 'Ataturk',
-                  numbers: ['1', '2', '3']
-                },
-                {
-                  name: 'Cumhuriyet',
-                  numbers: ['10', '11', '12']
-                }
-              ]
-            },
-            {
-              name: 'Gebze',
-              streets: [
-                {
-                  name: 'Sokak1',
-                  numbers: ['21', '22', '23']
-                },
-                {
-                  name: 'Sokak2',
-                  numbers: ['30', '31', '32']
-                }
-              ]
-            }
-          ]
-        },
-        // Diğer iller 
-      ]
-    },
-    // Diğer ilçeler
-  ];
+  
+  cityData: AddressModel[]=[];
+  provinceData: AddressModel[]=[];
+  townData: AddressModel[]=[];
+  streetData: AddressModel[]=[];
+  numberData: AddressModel[]=[];
+  neighborhoodForm!: FormGroup;
 
-  selectedCity: AddressItem | null = null;
-  selectedProvince: ProvinceItem | null = null;
-  selectedTown: TownItem | null = null;
-  selectedStreet: StreetItem | null = null;
-  selectedNumber: string | null = null;
+  constructor( private cityService:CityService,
+    private provinceService:ProvinceService,
+    private router:Router,
+    private townService:TownService,
+    private streetService:StreetService,
+    private numberService:NumberService,
+    private formBuilder: FormBuilder) {}
 
-  openAddress: string = '';
-
-  numberOfFloors: number = 0;
-  typeOfFeatures: string = '';
-
-  devices: string[] = ['', ''];
-
-  provinces: ProvinceItem[] = [];
-  onCityChange() {
-    this.selectedProvince = null;
-    this.selectedTown = null;
-    this.selectedStreet = null;
-    this.selectedNumber = null;
-
-    if (this.selectedCity) {
-      this.provinces = this.selectedCity.provinces;
-    } else {
-      this.provinces = [];
+    ngOnInit() {
+      this.getCityList();
+      this.getProvinceList();
+      this.getTownList();
+      this.getStreetList();
+      this.getNumberList();
+      this.neighborhoodForm = this.formBuilder.group({
+        city: ['', Validators.required],
+        province: ['', Validators.required],
+        town: ['', Validators.required],
+        street: ['', Validators.required],
+        number: ['', Validators.required]
+      });
     }
-  }
-  save() {
-    console.log('Kaydedildi!');
-    console.log('Seçili Şehir:', this.selectedCity);
-    console.log('Seçili İl:', this.selectedProvince);
-    console.log('Seçili Mahalle:', this.selectedTown);
-    console.log('Seçili Sokak:', this.selectedStreet);
-    console.log('Seçili Numara:', this.selectedNumber);
-    console.log('Açık Adres:', this.openAddress);
-    console.log('Kat Sayısı:', this.numberOfFloors);
-    console.log('Özellik Türü:', this.typeOfFeatures);
-    console.log('Cihazlar:', this.devices);
-  }
+
+    getCityList(): void {
+      this.cityService.getCityListAsync().subscribe((data) =>{
+        this.cityData = data;
+        console.log(data)
+      })
+    }
+
+    getProvinceList(): void {
+      this.provinceService.getProvinceListAsync().subscribe((data) =>{
+        this.provinceData = data;
+        console.log(data)
+        this.provinceData = this.provinceData.filter(province => province.main === this.selectedCityName());
+      })
+    }
+  
+    getTownList(): void {
+      this.townService.getTownListAsync().subscribe((data) =>{
+        this.townData = data;
+        console.log(data)
+        this.townData = this.townData.filter(town => town.main === this.selectedProvinceName());
+      })
+    }
+  
+    getStreetList(): void {
+      this.streetService.getStreetListAsync().subscribe((data) =>{
+        this.streetData = data;
+        console.log(data)
+        this.streetData = this.streetData.filter(street => street.main === this.selectedTownName());
+      })
+    }
+  
+    getNumberList(): void {
+      this.numberService.getNumberListAsync().subscribe((data) =>{
+        this.numberData = data;
+        console.log(data)
+        this.numberData = this.numberData.filter(number => number.main === this.selectedStreetName());
+
+      })
+    }
+
+    selectedCityName(): string {
+      const cityControl = this.neighborhoodForm.get('city');
+      return cityControl ? cityControl.value : '';
+    }
+  
+    selectedProvinceName(): string {
+      const provinceControl = this.neighborhoodForm.get('province');
+      return provinceControl ? provinceControl.value : '';
+    }
+  
+    selectedTownName(): string {
+      const townControl = this.neighborhoodForm.get('town');
+      return townControl ? townControl.value : '';
+    }
+  
+    selectedStreetName(): string {
+      const streetControl = this.neighborhoodForm.get('street');
+      return streetControl ? streetControl.value : '';
+    }
+  
+    onSubmit() {
+      console.log(this.neighborhoodForm.value);
+    }
 }

@@ -3,4 +3,5 @@ export class AddressModel{
 
     id!: string;
     name!: string;
+    main!: string;
 }

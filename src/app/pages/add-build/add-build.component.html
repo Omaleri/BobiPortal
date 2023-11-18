@@ -1,47 +1,38 @@
-<!-- build.component.html -->
-
-<div>
-    <!-- Address Section -->
-    <label>City:</label>
-    <select [(ngModel)]="selectedCity" (change)="onCityChange()">
-      <option *ngFor="let city of cities" [ngValue]="city">{{ city.name }}</option>
-    </select>
-  
-    <label>Province:</label>
-    <select [(ngModel)]="selectedProvince" *ngIf="selectedCity">
-      <option *ngFor="let province of selectedCity.provinces" [ngValue]="province">{{ province.name }}</option>
-    </select>
-  
-    <label>Town:</label>
-    <select [(ngModel)]="selectedTown" *ngIf="selectedProvince">
-      <option *ngFor="let town of selectedProvince.towns" [ngValue]="town">{{ town.name }}</option>
-    </select>
-  
-    <label>Street:</label>
-    <select [(ngModel)]="selectedStreet" *ngIf="selectedTown">
-      <option *ngFor="let street of selectedTown.streets" [ngValue]="street">{{ street.name }}</option>
-    </select>
-  
-    <label>Number:</label>
-    <select [(ngModel)]="selectedNumber" *ngIf="selectedStreet">
-      <option *ngFor="let number of selectedStreet.numbers" [ngValue]="number">{{ number }}</option>
-    </select>
-  
-    <label>Open Address:</label>
-    <input type="text" [(ngModel)]="openAddress">
-  
-    <!-- Number of Floors and Type of Features Section -->
-    <label>Number of Floors:</label>
-    <input type="number" [(ngModel)]="numberOfFloors">
-  
-    <label>Type of Features:</label>
-    <input type="text" [(ngModel)]="typeOfFeatures">
-  
-    <!-- Device Section -->
-    <div *ngFor="let device of devices; let i = index">
-      <label>Device {{ i + 1 }}:</label>
-      <input type="text" [(ngModel)]="devices[i]">
+<div class="container">
+  <h2>Create</h2>
+  <form [formGroup]="neighborhoodForm" (ngSubmit)="onSubmit()">
+    <div class="form-group">
+      <label for="city">City:</label>
+      <select formControlName="city" id="city" (change)="getProvinceList()">
+        <option value="" disabled selected>Select City</option>
+        <option *ngFor="let city of cityData" [value]="city.name">{{ city.name }}</option>
+      </select>
     </div>
-    <button (click)="save()">Kaydet</button>
-  </div>
-  
+    <div class="form-group">
+      <label for="province">Province:</label>
+      <select formControlName="province" id="province" (change)="getTownList()" [disabled]="!selectedCityName()">
+        <option value="" disabled selected>Select Province</option>
+        <option *ngFor="let province of provinceData" [value]="province.name">{{ province.name }}</option>
+      </select>
+    </div>
+    <div class="form-group">
+      <label for="town">Town:</label>
+      <select formControlName="town" id="town" (change)="getStreetList()" [disabled]="!selectedProvinceName()">
+        <option value="" disabled selected>Select Town</option>
+        <option *ngFor="let town of townData" [value]="town.name">{{ town.name }}</option>
+      </select>
+    </div>
+    <div class="form-group">
+      <label for="street">Street:</label>
+      <select formControlName="street" id="street" (change)="getNumberList()" [disabled]="!selectedTownName()">
+        <option value="" disabled selected>Select Street</option>
+        <option *ngFor="let street of streetData" [value]="street.name">{{ street.name }}</option>
+      </select>
+    </div>
+    <div class="form-group">
+      <label for="number">Number:</label>
+      <select formControlName="number" id="number" (change)="getNumberList()" [disabled]="!selectedStreetName()">
+        <option value="" disabled selected>Select Number</option>
+        <option *ngFor="let number of numberData" [value]="number.name">{{ number.name }}</option>
+      </select>
+    </div>
