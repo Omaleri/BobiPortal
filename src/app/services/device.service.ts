@@ -2,6 +2,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { GlobalService } from './global.service';
+import { AddressModel } from '../model/address.model';
 
 @Injectable({
   providedIn: 'root'
@@ -27,4 +28,17 @@ export class DeviceService {
   getDeviceList():Observable<any> {
     return this.httpClient.get<any>(this.globalService.baseUrl+ this.controllerPath+'/GetListAsync').pipe();
   }
-}
+
+  createDeviceAsync(DeviceName: string, Id: string): Observable<any> {
+    const apiUrl = `${this.globalService.baseUrl}${this.controllerPath}/CreateAsync`;
+    const requestBody = { DeviceName: DeviceName, Id: 'null' };
+
+    return this.httpClient.post<any>(apiUrl, requestBody);
+  }
+
+  deleteDeviceAsync(id: string): Observable<AddressModel[]> {
+    const url = `${this.globalService.baseUrl}${this.controllerPath}/Delete/${id}`;
+    return this.httpClient.delete<AddressModel[]>(url);
+  }
+  }
+

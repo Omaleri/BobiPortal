@@ -25,16 +25,43 @@
   </div>
 
   <!-- Devices Section -->
-  <div class="section">
-    <h2>Devices</h2>
+<div class="section">
+  <h2>Devices</h2>
+  <div class="form-group">
     <div class="form-group">
-        <div class="form-group">
-          <label>Devices:</label>
-          <input type="text" [value]="getFormattedDevices()" disabled>
-        </div>
+      <label>Devices:</label>
+      <table>
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let device of selectedRow.device">
+            <td>{{ device.id }}</td>
+            <td>{{ device.deviceName }}</td>
+            <td>
+              <button class="btn btn-delete" (click)="deleteDevice(device.id)"><i class="bi bi-trash"></i>Delete</button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <button *ngIf="!editMode" class="btn btn-edit" (click)="toggleEditMode()">Edit</button>
+    </div>
+    <div *ngIf="editMode">
+      <!-- Ekleme ve Silme Butonları -->
+      <div>
+        <label for="newDeviceName">Device Name:</label>
+        <input type="text" id="newDeviceName" [(ngModel)]="newDeviceName">
       </div>
+      <button class="btn btn-add" (click)="createDevice()"><i class="bi bi-folder-plus"></i>Create Device</button>
+      <button class="btn btn-add" (click)="addDevice()"><i class="bi bi-node-plus-fill"></i>Add Device</button>
+      <button class="btn btn-cancel" (click)="cancelEdit()"><i class="bi bi-x-circle"></i>Cancel</button>
     </div>
   </div>
+</div>
 
   <!-- Voice Section -->
   <div class="sectionVoice">
@@ -45,16 +72,24 @@
       <table>
         <thead>
           <tr>
-            <th>Voice Name</th>
+            <th>Id</th>
+            <th>Voice Link</th>
             <th>Voice Date</th>
           </tr>
         </thead>
         <tbody>
-          <tr *ngFor="let voice of selectedRow.voiceList">
-            <td>{{ voice.name }}</td>
-            <td>{{ voice.date }}</td>
+          <tr *ngFor="let voice of connectedVoiceData">
+            <td>{{ voice.id }}</td>
+            <td>{{ voice.link }}</td>
+            <td>{{ voice.voiceDate }}</td>
           </tr>
         </tbody>
       </table>
     </div>
   </div>
+  <!-- Button Section -->
+<div class="button-container">
+  <td>
+    <button class="btn btn-delete" (click)="confirmDelete(selectedRow.id)"> <i class="bi bi-trash"></i> Sil </button>
+  </td>
+</div>

@@ -32,4 +32,12 @@ export class BuildService {
     return this.httpClient.delete<BuildModel[]>(url);
   }
  
+  updateAsync(buildId: string, deviceName: string): Observable<BuildModel> {
+    const requestBody = { buildId, deviceName }; // Gönderilecek verileri oluşturun, gerekirse düzenleyin
+
+    return this.httpClient.post<BuildModel>(
+      `${this.globalService.baseUrl}${this.controllerPath}/UpdateAsync/${buildId}`,
+      requestBody
+    );
+  }
 }

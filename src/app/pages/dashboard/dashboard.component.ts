@@ -14,7 +14,7 @@ import { VoiceModel } from 'src/app/model/voice.model';
 })
 export class DashboardComponent implements OnInit {
 
-  voiceData: VoiceModel | undefined;
+  voiceData: VoiceModel[]=[];
   cityData: AddressModel[]=[];
   dashboardData: BuildModel[]=[];
   public static selectedRow:any;

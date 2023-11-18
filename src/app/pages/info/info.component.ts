@@ -1,6 +1,6 @@
 // info.component.ts
 
-import { Component, Input } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { DashboardComponent } from '../dashboard/dashboard.component';
 import { BuildService } from 'src/app/services/build.service';
 import { AddressModel } from 'src/app/model/address.model';
@@ -12,6 +12,9 @@ import { StreetService } from 'src/app/services/street.service';
 import { NumberService } from 'src/app/services/number.service';
 import { VoiceModel } from 'src/app/model/voice.model';
 import { VoiceService } from 'src/app/services/voice.service';
+import { BuildModel } from 'src/app/model/build.model';
+import { DeviceService } from 'src/app/services/device.service';
+import { DeviceModel } from 'src/app/model/device.model'
 
 
 @Component({
@@ -19,24 +22,23 @@ import { VoiceService } from 'src/app/services/voice.service';
   templateUrl: './info.component.html',
   styleUrls: ['./info.component.css']
 })
-export class InfoComponent {
+export class InfoComponent implements OnInit{
 
-  deviceData: AddressModel[]=[];
+  deviceData: DeviceModel[]=[];
   cityData: AddressModel[]=[];
   provinceData: AddressModel[]=[];
   townData: AddressModel[]=[];
   streetData: AddressModel[]=[];
   numberData: AddressModel[]=[];
   voiceData: VoiceModel[]=[];
+  connectedVoiceData: VoiceModel[]=[];
+  buildData: BuildModel[]=[];
+  newDeviceName: string='';
 
+  editMode = false;
   selectedRow:any;
 
   showVoiceListFlag: boolean = false; // Voice List'in görünürlüğünü kontrol etmek için bayrak
-  voiceList: any[] = [
-    { name: 'Voice 1', date: '2023-11-10' },
-    { name: 'Voice 2', date: '2023-11-11' },
-    // Daha fazla örnek voice ekleyebilirsiniz.
-  ]; // Voice Listesi
 
   constructor( private cityService:CityService,
     private buildService:BuildService,
@@ -45,7 +47,8 @@ export class InfoComponent {
     private townService:TownService,
     private streetService:StreetService,
     private numberService:NumberService,
-    private voiceService:VoiceService) {}
+    private voiceService:VoiceService,
+    private deviceService:DeviceService,) {}
 
   ngOnInit() {
     this.getCityList();
@@ -53,6 +56,9 @@ export class InfoComponent {
     this.getTownList();
     this.getStreetList();
     this.getNumberList();
+    this.connectVoiceAndBuild();
+    this.getVoice();
+    this.getBuildList();
     console.log(DashboardComponent.selectedRow);
     this.selectedRow = DashboardComponent.selectedRow;
   }
@@ -70,6 +76,15 @@ export class InfoComponent {
   
     const city = this.cityData.find(c => c.id === cityId);
     return city ? city.name : '';
+  }
+
+  getVoice(): void{
+    this.voiceService.getVoiceListAsync().subscribe((data) =>{
+      this.voiceData = data;
+      console.log(data)
+
+      this.connectVoiceAndBuild();
+    })
   }
 
   getProvinceList(): void {
@@ -140,7 +155,100 @@ export class InfoComponent {
     return this.selectedRow.device.map((device: { deviceName: any; id: any; }) => `Name: ${device.deviceName}      -       Id: ${device.id}`).join('     -     ');
   }
 
+  getBuildList(): void {
+    this.buildService.getListAsync().subscribe((data) => {
+      this.buildData = data;
+      console.log(data);
+    });
+  }
+
+  connectVoiceAndBuild(): void {
+    for (const voice of this.voiceData) {
+        if (voice.buildId === this.selectedRow.id) {
+          const connectedVoice: VoiceModel = {
+            id: voice.id,
+            buildId: voice.buildId,
+            link: voice.link,
+            voiceDate: voice.voiceDate
+          };
+          this.connectedVoiceData.push(connectedVoice);
+        }
+      }
+    }
+
+    deleteBuild(buildId: string): void {
+      this.buildService.deleteAsync(buildId).subscribe(
+        (data) => {
+          console.log('Build successfully deleted!', data);
+          this.getBuildList();
+        },
+        (error) => {
+          console.error('Error deleting build', error);
+        }
+      );
+    }
   
+    createDevice(): void {
+      if (this.newDeviceName === '') {
+        console.error("Device name cannot be empty.");
+        return;
+      }
+      this.deviceService.createDeviceAsync(this.newDeviceName, 'null').subscribe(
+        (createdDevice) => {
+          console.log("Device created successfully.", createdDevice);
+          const createdDeviceId = createdDevice.id; // createdDevice içindeki ID
+        },
+        (error) => {
+          console.error("Error creating device:", error);
+        }
+      );
+      this.editMode = false;
+    }
+
+    addDevice(): void{
+      this.buildService.updateAsync(this.selectedRow.id,this.newDeviceName).subscribe(
+      (createdDevice) => {
+        console.log("Build update successfully.", createdDevice);
+        const createdDeviceId = createdDevice.id; // createdDevice içindeki ID
+      },
+      (error) => {
+        console.error("Error updating build:", error);
+      }
+      )
+    this.editMode = false;
+    }
+
+
+    confirmDelete(id: string): void {
+      const confirmation = confirm('Bu öğeyi silmek istediğinizden emin misiniz?');
+    
+      if (confirmation) {
+        this.deleteBuild(id);
+      }
+    }
+
+    deleteDevice(deviceId: string) {
+      this.deviceService.deleteDeviceAsync(deviceId).subscribe(
+        (data) => {
+          // İşlem başarılıysa
+          console.log("Device deleted successfully:", data);
+          // Burada gerekirse this.deviceData veya başka bir şeyi güncelleyebilirsiniz.
+        },
+        (error) => {
+          // Hata durumunda
+          console.error("Error deleting device:", error);
+        }
+      );
+    }
+
+    cancelEdit(){
+      this.editMode = false;
+      this.newDeviceName= '';
+    }
+
+    toggleEditMode() {
+      this.editMode = !this.editMode;
+    }
 
   toggleVoiceList() {
     // Voice List'i açma/kapatma işlemi

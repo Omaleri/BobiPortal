@@ -20,7 +20,7 @@ import { InfoComponent } from './pages/info/info.component';
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
-    FormsModule
+    FormsModule,
   ],
   providers: [],
   bootstrap: [AppComponent]
