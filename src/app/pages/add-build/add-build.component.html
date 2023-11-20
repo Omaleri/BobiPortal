@@ -3,7 +3,7 @@
   <form [formGroup]="neighborhoodForm" (ngSubmit)="onSubmit()">
     <div class="form-group">
       <label for="city">City:</label>
-      <select formControlName="city" id="city" (change)="getProvinceList()">
+      <select formControlName="city" id="city" (change)="getProvinceList(); loadCity()">
         <option value="" disabled selected>Select City</option>
         <option *ngFor="let city of cityData" [value]="city.name">{{ city.name }}</option>
       </select>
