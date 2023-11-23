@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 import { GlobalService } from './global.service';
 import { BuildModel } from '../model/build.model';
 import { BuildComponent } from '../pages/add-build/add-build.component'
+import { DeviceModel } from '../model/device.model';
 
 @Injectable({
   providedIn: 'root'
@@ -44,11 +45,11 @@ export class BuildService {
     return this.httpClient.post(url, requestWithDevice);
   }
 
-  updateAsync(buildId: string, deviceName: string): Observable<BuildModel> {
-    const requestBody = { buildId, deviceName };
+  updateForDeviceAsync(Id: string, device: DeviceModel, CityId:string, NumberId:string,ProvinceId:string,StreetId:string,TownId:string,TypeOfFeature:string): Observable<BuildModel> {
+    const requestBody = { Id, device,CityId,NumberId,ProvinceId,StreetId,TownId,TypeOfFeature};
 
-    return this.httpClient.post<BuildModel>(
-      `${this.globalService.baseUrl}${this.controllerPath}/UpdateAsync/${buildId}`,
+    return this.httpClient.put<BuildModel>(
+      `${this.globalService.baseUrl}${this.controllerPath}/UpdateAsync`,
       requestBody
     );
   }

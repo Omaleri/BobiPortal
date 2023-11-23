@@ -16,6 +16,7 @@ import { BuildModel } from 'src/app/model/build.model';
 import { DeviceService } from 'src/app/services/device.service';
 import { DeviceModel } from 'src/app/model/device.model'
 import { AdminAccessService } from 'src/app/services/adminAccess.service';
+import { forkJoin } from 'rxjs';
 
 
 @Component({
@@ -36,6 +37,7 @@ export class InfoComponent implements OnInit{
   buildData: BuildModel[]=[];
   buildInfoData: any;
   newDeviceName: string='';
+  deviceId: string='';
   isAdmin: boolean = false;
 
   editMode = false;
@@ -61,7 +63,6 @@ export class InfoComponent implements OnInit{
     this.getTownList();
     this.getStreetList();
     this.getNumberList();
-    this.connectVoiceAndBuild();
     this.getVoice();
     this.getBuildList();
     this.isAdmin = this.adminAccessService.hasAdminAccess();
@@ -71,7 +72,6 @@ export class InfoComponent implements OnInit{
     this.activatedRoute.paramMap.subscribe(params => {
       const buildId = params.get('id');
 
-      // buildId varsa, getByIdAsync metodunu çağırarak veriyi al
       if (buildId) {
         this.buildService.getByIdAsync(buildId).subscribe(
           data => {
@@ -190,13 +190,14 @@ export class InfoComponent implements OnInit{
 
   connectVoiceAndBuild(): void {
     for (const voice of this.voiceData) {
-        if (voice.buildId === this.selectedRow.id) {
+        if (voice.buildId === this.buildInfoData.id) {
           const connectedVoice: VoiceModel = {
             id: voice.id,
             buildId: voice.buildId,
             link: voice.link,
             voiceDate: voice.voiceDate
           };
+          console.log("voice alındı")
           this.connectedVoiceData.push(connectedVoice);
         }
       }
@@ -233,7 +234,8 @@ export class InfoComponent implements OnInit{
     }
 
     addDevice(): void{
-      this.buildService.updateAsync(this.selectedRow.id,this.newDeviceName).subscribe(
+      const device = this.buildInfoData.Device
+      this.buildService.updateForDeviceAsync( this.buildInfoData.Id, this.buildInfoData.device,this.buildInfoData.CityId,this.buildInfoData.NumberId,this.buildInfoData.ProvinceId,this.buildInfoData.StreetId,this.buildInfoData.TownId,this.buildInfoData.TypeOfFeature).subscribe(
       (createdDevice) => {
         console.log("Build update successfully.", createdDevice);
         const createdDeviceId = createdDevice.id; // createdDevice içindeki ID
@@ -253,20 +255,27 @@ export class InfoComponent implements OnInit{
         this.deleteBuild(id);
       }
     }
+// ...
 
-    deleteDevice(deviceId: string) {
-      this.deviceService.deleteDeviceAsync(deviceId).subscribe(
-        (data) => {
-          // İşlem başarılıysa
-          console.log("Device deleted successfully:", data);
-          // Burada gerekirse this.deviceData veya başka bir şeyi güncelleyebilirsiniz.
-        },
-        (error) => {
-          // Hata durumunda
-          console.error("Error deleting device:", error);
-        }
-      );
+/*deleteAndThenUpdate(deviceId: string, id: string) {
+  // deleteDeviceAsync ve updateAsync'i aynı anda çalıştır
+  forkJoin([
+    this.deviceService.deleteDeviceAsync(deviceId),
+    this.buildService.updateAsync(id) // Burada güncellenecek verileri sağlayın
+  ]).subscribe(
+    ([deleteResult, updateResult]) => {
+      // İki işlem de başarılıysa
+      console.log('Device deleted successfully:', deleteResult);
+      console.log('Device updated successfully:', updateResult);
+      // Burada gerekirse this.deviceData veya başka bir şeyi güncelleyebilirsiniz.
+    },
+    (error) => {
+      // Herhangi bir işlemde hata durumunda
+      console.error('Error:', error);
     }
+  );
+}*/
+
 
     cancelEdit(){
       this.editMode = false;

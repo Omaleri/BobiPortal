@@ -43,7 +43,7 @@
             <td>{{ device.id }}</td>
             <td>{{ device.deviceName }}</td>
             <td>
-              <button class="btn btn-delete" (click)="deleteDevice(device.id)"><i class="bi bi-trash"></i>Delete</button>
+              <button class="btn btn-delete" ><i class="bi bi-trash"></i>Delete</button>
             </td>
           </tr>
         </tbody>
@@ -59,7 +59,8 @@
         <!-- Ekleme ve Silme Butonları -->
         <div>
           <label for="newDeviceName">Device Name:</label>
-          <input type="text" id="newDeviceName" [(ngModel)]="newDeviceName">
+          Name:<input type="text" id="newDeviceName" [(ngModel)]="newDeviceName">
+          ID:<input type="text" id="deviceId" [(ngModel)]="deviceId">
         </div>
         <button class="btn btn-add" (click)="createDevice()"><i class="bi bi-folder-plus"></i>Create Device</button>
         <button class="btn btn-add" (click)="addDevice()"><i class="bi bi-node-plus-fill"></i>Add Device</button>
@@ -73,7 +74,7 @@
   <!-- Voice Section -->
   <div class="sectionVoice">
     <h2>
-      <a (click)="toggleVoiceList()">Voice List</a>
+      <a (click)="toggleVoiceList();connectVoiceAndBuild() ">Voice List</a>
     </h2>
     <div *ngIf="showVoiceListFlag" class="form-group">
       <table>
