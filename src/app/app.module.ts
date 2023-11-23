@@ -9,6 +9,7 @@ import { BuildComponent } from './pages/add-build/add-build.component';
 import { LoginComponent } from './pages/login/login.component';
 import { InfoComponent } from './pages/info/info.component';
 import { ReactiveFormsModule } from '@angular/forms';
+import { LocalStorageService } from './services/localStorage.service';
 
 
 @NgModule({
@@ -24,9 +25,9 @@ import { ReactiveFormsModule } from '@angular/forms';
     AppRoutingModule,
     HttpClientModule,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
   ],
-  providers: [],
+  providers: [LocalStorageService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

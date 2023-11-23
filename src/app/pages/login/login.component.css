@@ -1,42 +1,65 @@
 /* login.component.css */
 
 .login-container {
-    width: 300px;
-    margin: 50px auto;
-    padding: 20px;
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-  }
-  
-  .form-group {
-    margin-bottom: 15px;
-  }
-  
-  label {
-    display: block;
-    margin-bottom: 5px;
-    font-weight: bold;
-  }
-  
-  input {
-    width: 100%;
-    padding: 8px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    box-sizing: border-box;
-  }
-  
-  button {
-    background-color: #4caf50;
-    color: white;
-    padding: 10px 15px;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-  }
-  
-  button:hover {
-    background-color: #45a049;
-  }
-  
+  width: 300px;
+  margin: 50px auto;
+  padding: 20px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.form-group {
+  margin-bottom: 15px;
+}
+
+label {
+  display: block;
+  margin-bottom: 5px;
+  font-weight: bold;
+}
+
+input {
+  width: calc(100% - 26px); /* Göz simgesi düğmesi için genişlik ayarı */
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+  display: inline-block; /* Göz simgesi yanına yerleştirme */
+}
+
+button {
+  background-color: #4caf50;
+  color: white;
+  padding: 10px 15px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.password-input-container {
+  position: relative;
+  display: flex;
+  align-items: center; /* Şifre alanını ve göz simgesini dikey hizalamak için */
+}
+
+.password-input-container input {
+  flex: 1; /* Şifre alanını genişletmek için */
+  padding-right: 30px; /* Sağ kenara göz simgesi için boşluk bırakmak için */
+}
+
+.button-eye {
+  position: absolute;
+  right: 5px; /* Sağ kenara hizalamak için ayarlayabilirsiniz */
+  top: 50%; /* Dikey hizalamak için ayarlayabilirsiniz */
+  transform: translateY(-50%);
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  color: black; /* Göz simgesi rengi */
+}
+
+.logout-button{
+  margin-left: 95px;
+}
+

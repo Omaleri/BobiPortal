@@ -1,65 +1,58 @@
-/* build.component.css */
-
-/* İstediğiniz stillemeleri ekleyebilirsiniz. */
-div {
-    margin: 20px;
-    margin-left: 100px;
-  }
-  
-  label {
-    display: block;
-    margin-bottom: 5px;
-  }
-  
-  button{
-    margin-left: 700px;
-  }
-  /* build.component.css */
-
 .container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-  }
-  
-  .form-container {
-    width: 300px;
-    padding: 20px;
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-  }
-  
-  .form-group {
-    margin-bottom: 15px;
-  }
-  
-  label {
-    display: block;
-    margin-bottom: 5px;
-    font-weight: bold;
-  }
-  
-  select,
-  input {
-    width: 100%;
-    padding: 8px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    box-sizing: border-box;
-  }
-  
-  button {
-    background-color: #4caf50;
-    color: white;
-    padding: 20px 25px;;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-  }
-  
-  button:hover {
-    background-color: #45a049;
-  }
-  
+  max-width: 400px;
+  margin: auto;
+  padding: 20px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  background-color: #fff;
+  margin-top: 20px; /* Ekleme: Üst boşluğu ayarla */
+}
+
+h2 {
+  text-align: center;
+  color: #333;
+  margin-bottom: 20px; /* Ekleme: Başlığın altındaki boşluğu ayarla */
+}
+
+.form-group {
+  margin-bottom: 15px; /* Değişiklik: Gruplar arasındaki boşluğu azalt */
+}
+
+label {
+  display: block;
+  margin-bottom: 5px;
+  font-weight: bold;
+}
+
+select,
+input {
+  width: 100%;
+  padding: 10px;
+  box-sizing: border-box;
+  margin-bottom: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.error-message {
+  color: #f00;
+  font-size: 12px;
+  margin-top: 5px;
+}
+
+.submit-button {
+  background-color: #4caf50;
+  color: #fff;
+  padding: 12px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.submit-button:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+  color: #999;
+} 

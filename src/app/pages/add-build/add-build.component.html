@@ -1,6 +1,6 @@
 <div class="container">
-  <h2>Create</h2>
-  <form [formGroup]="neighborhoodForm" (ngSubmit)="onSubmit()">
+  <h2>Create a Build</h2>
+  <form [formGroup]="buildForm" (ngSubmit)="onSubmit()">
     <div class="form-group">
       <label for="city">City:</label>
       <select formControlName="city" id="city" (change)="getProvinceList(); loadCity()">
@@ -10,29 +10,47 @@
     </div>
     <div class="form-group">
       <label for="province">Province:</label>
-      <select formControlName="province" id="province" (change)="getTownList()" [disabled]="!selectedCityName()">
+      <select formControlName="province" id="province" (change)="getTownList(); loadProvinces()" [disabled]="!selectedCityName()">
         <option value="" disabled selected>Select Province</option>
         <option *ngFor="let province of provinceData" [value]="province.name">{{ province.name }}</option>
       </select>
     </div>
     <div class="form-group">
       <label for="town">Town:</label>
-      <select formControlName="town" id="town" (change)="getStreetList()" [disabled]="!selectedProvinceName()">
+      <select formControlName="town" id="town" (change)="getStreetList(); loadTowns()" [disabled]="!selectedProvinceName()">
         <option value="" disabled selected>Select Town</option>
         <option *ngFor="let town of townData" [value]="town.name">{{ town.name }}</option>
       </select>
     </div>
     <div class="form-group">
       <label for="street">Street:</label>
-      <select formControlName="street" id="street" (change)="getNumberList()" [disabled]="!selectedTownName()">
+      <select formControlName="street" id="street" (change)="getNumberList(); loadStreets()" [disabled]="!selectedTownName()">
         <option value="" disabled selected>Select Street</option>
         <option *ngFor="let street of streetData" [value]="street.name">{{ street.name }}</option>
       </select>
     </div>
     <div class="form-group">
       <label for="number">Number:</label>
-      <select formControlName="number" id="number" (change)="getNumberList()" [disabled]="!selectedStreetName()">
+      <select formControlName="number" id="number" (change)="getNumberList();loadNumber()" [disabled]="!selectedStreetName()">
         <option value="" disabled selected>Select Number</option>
         <option *ngFor="let number of numberData" [value]="number.name">{{ number.name }}</option>
       </select>
     </div>
+    <div class="form-group">
+      <label for="numberOfFloors">Number Of Floors:</label>
+      <input type="text" formControlName="numberOfFloors" id="numberOfFloors" required>
+      <div *ngIf="buildForm.get('numberOfFloors')?.hasError('pattern')" class="error-message">
+        Only positive numbers are allowed.
+      </div>
+    </div>    
+    <div class="form-group">
+      <label for="typeOfFeature">Type Of Features:</label>
+      <input type="text" formControlName="typeOfFeature" id="typeOfFeature">
+    </div>
+    <div class="form-group">
+      <label for="device">Device:</label>
+      <input type="text" formControlName="device" id="device">
+    </div>
+    <button (click)="createBuild()" type="submit" class="submit-button">Create</button>
+  </form>
+</div>    

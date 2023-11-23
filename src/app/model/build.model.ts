@@ -9,9 +9,9 @@ export class BuildModel{
      townId:string='';
      streetId:string='';
      numberId:string='';
-     situation :boolean | undefined;
-    numberOfFloors:number | undefined;
-     typeOfFeature :string | undefined;
-     dateOfDestructive:Date | undefined;
+     situation ?:boolean ;
+    numberOfFloors?:number ;
+     typeOfFeature ?:string ;
+     dateOfDestructive?:Date ;
      device:string='';
 }

@@ -5,7 +5,7 @@ import { DashboardComponent } from '../dashboard/dashboard.component';
 import { BuildService } from 'src/app/services/build.service';
 import { AddressModel } from 'src/app/model/address.model';
 import { CityService } from 'src/app/services/city.service';
-import { Router } from '@angular/router';
+import { ActivatedRoute,Router } from '@angular/router';
 import { ProvinceService } from 'src/app/services/province.service';
 import { TownService } from 'src/app/services/town.service';
 import { StreetService } from 'src/app/services/street.service';
@@ -15,6 +15,7 @@ import { VoiceService } from 'src/app/services/voice.service';
 import { BuildModel } from 'src/app/model/build.model';
 import { DeviceService } from 'src/app/services/device.service';
 import { DeviceModel } from 'src/app/model/device.model'
+import { AdminAccessService } from 'src/app/services/adminAccess.service';
 
 
 @Component({
@@ -33,14 +34,17 @@ export class InfoComponent implements OnInit{
   voiceData: VoiceModel[]=[];
   connectedVoiceData: VoiceModel[]=[];
   buildData: BuildModel[]=[];
+  buildInfoData: any;
   newDeviceName: string='';
+  isAdmin: boolean = false;
 
   editMode = false;
   selectedRow:any;
 
   showVoiceListFlag: boolean = false; // Voice List'in görünürlüğünü kontrol etmek için bayrak
 
-  constructor( private cityService:CityService,
+  constructor(private adminAccessService:AdminAccessService,
+     private cityService:CityService,
     private buildService:BuildService,
     private router:Router,
     private provinceService:ProvinceService,
@@ -48,7 +52,8 @@ export class InfoComponent implements OnInit{
     private streetService:StreetService,
     private numberService:NumberService,
     private voiceService:VoiceService,
-    private deviceService:DeviceService,) {}
+    private deviceService:DeviceService,
+    private activatedRoute:ActivatedRoute) {}
 
   ngOnInit() {
     this.getCityList();
@@ -59,9 +64,30 @@ export class InfoComponent implements OnInit{
     this.connectVoiceAndBuild();
     this.getVoice();
     this.getBuildList();
+    this.isAdmin = this.adminAccessService.hasAdminAccess();
     console.log(DashboardComponent.selectedRow);
     this.selectedRow = DashboardComponent.selectedRow;
+
+    this.activatedRoute.paramMap.subscribe(params => {
+      const buildId = params.get('id');
+
+      // buildId varsa, getByIdAsync metodunu çağırarak veriyi al
+      if (buildId) {
+        this.buildService.getByIdAsync(buildId).subscribe(
+          data => {
+            this.buildInfoData = data;
+            console.log('Build Data:', this.buildInfoData);
+          },
+          error => {
+            console.error('Error getting build data:', error);
+          }
+        );
+      } else {
+        console.error('No buildId found in the URL.');
+      }
+    });
   }
+
 
   getCityList(): void {
     this.cityService.getCityListAsync().subscribe((data) =>{
@@ -181,6 +207,7 @@ export class InfoComponent implements OnInit{
         (data) => {
           console.log('Build successfully deleted!', data);
           this.getBuildList();
+          this.router.navigate(['/dashboard']);
         },
         (error) => {
           console.error('Error deleting build', error);

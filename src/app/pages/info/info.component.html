@@ -3,8 +3,8 @@
   <div class="section">
     <h2>Address</h2>
     <div class="form-group">
-      <input type="text" [value]="getTownName(selectedRow.townId) + ' Mahallesi,        ' + getStreetName(selectedRow.streetId) + ' Sokak,        No:' + getNumberName(selectedRow.numberId)
-       + ' ,        ' + getCityName(selectedRow.cityId) +'/'+ getProvinceName(selectedRow.provinceId) " disabled>
+      <input type="text" [value]="getTownName(buildInfoData.townId) + ' Mahallesi,        ' + getStreetName(buildInfoData.streetId) + ' Sokak,        No:' + getNumberName(buildInfoData.numberId)
+       + ' ,        ' + getCityName(buildInfoData.cityId) +'/'+ getProvinceName(buildInfoData.provinceId) " disabled>
     </div>
   </div>
 
@@ -12,7 +12,7 @@
   <div class="section">
     <h2>Type Of Features</h2>
     <div class="form-group">
-      <input type="text" [(ngModel)]="selectedRow.typeOfFeature" disabled>
+      <input type="text" [(ngModel)]="buildInfoData.typeOfFeature" disabled>
     </div>
   </div>
 
@@ -20,11 +20,11 @@
   <div class="section">
     <h2>Number Of Floors</h2>
     <div class="form-group">
-      <input type="text" [(ngModel)]="selectedRow.numberOfFloors" disabled>
+      <input type="text" [(ngModel)]="buildInfoData.numberOfFloors" disabled>
     </div>
   </div>
 
-  <!-- Devices Section -->
+<!-- Devices Section -->
 <div class="section">
   <h2>Devices</h2>
   <div class="form-group">
@@ -38,8 +38,8 @@
             <th>Actions</th>
           </tr>
         </thead>
-        <tbody>
-          <tr *ngFor="let device of selectedRow.device">
+        <tbody *ngIf="buildInfoData.device && buildInfoData.device.length > 0">
+          <tr *ngFor="let device of buildInfoData.device">
             <td>{{ device.id }}</td>
             <td>{{ device.deviceName }}</td>
             <td>
@@ -47,18 +47,25 @@
             </td>
           </tr>
         </tbody>
+        <tbody *ngIf="!buildInfoData.device || buildInfoData.device.length === 0">
+          <tr>
+            <td colspan="3">No devices available.</td>
+          </tr>
+        </tbody>
       </table>
-      <button *ngIf="!editMode" class="btn btn-edit" (click)="toggleEditMode()">Edit</button>
     </div>
-    <div *ngIf="editMode">
-      <!-- Ekleme ve Silme Butonları -->
-      <div>
-        <label for="newDeviceName">Device Name:</label>
-        <input type="text" id="newDeviceName" [(ngModel)]="newDeviceName">
+    <div *ngIf="isAdmin">
+      <div *ngIf="editMode">
+        <!-- Ekleme ve Silme Butonları -->
+        <div>
+          <label for="newDeviceName">Device Name:</label>
+          <input type="text" id="newDeviceName" [(ngModel)]="newDeviceName">
+        </div>
+        <button class="btn btn-add" (click)="createDevice()"><i class="bi bi-folder-plus"></i>Create Device</button>
+        <button class="btn btn-add" (click)="addDevice()"><i class="bi bi-node-plus-fill"></i>Add Device</button>
+        <button class="btn btn-cancel" (click)="cancelEdit()"><i class="bi bi-x-circle"></i>Cancel</button>
       </div>
-      <button class="btn btn-add" (click)="createDevice()"><i class="bi bi-folder-plus"></i>Create Device</button>
-      <button class="btn btn-add" (click)="addDevice()"><i class="bi bi-node-plus-fill"></i>Add Device</button>
-      <button class="btn btn-cancel" (click)="cancelEdit()"><i class="bi bi-x-circle"></i>Cancel</button>
+      <button *ngIf="!editMode" class="btn btn-edit" (click)="toggleEditMode()">Edit</button>
     </div>
   </div>
 </div>
@@ -90,6 +97,6 @@
   <!-- Button Section -->
 <div class="button-container">
   <td>
-    <button class="btn btn-delete" (click)="confirmDelete(selectedRow.id)"> <i class="bi bi-trash"></i> Sil </button>
+    <button class="btn btn-delete" (click)="confirmDelete(buildInfoData.id)"> <i class="bi bi-trash"></i> Sil </button>
   </td>
 </div>

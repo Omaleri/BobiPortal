@@ -1,17 +1,27 @@
 <!-- login.component.html -->
 
 <div class="login-container">
-    <h2>Login</h2>
-    <form (ngSubmit)="login()">
-      <div class="form-group">
-        <label>Email:</label>
-        <input type="email" [(ngModel)]="email" name="email" required>
+  <h2>Login</h2>
+  <form (ngSubmit)="login()">
+    <div class="form-group">
+      <label>Email:</label>
+      <input type="email" [(ngModel)]="email" name="email" required>
+    </div>
+    <div class="form-group">
+      <label>Password:</label>
+      <div class="password-input-container">
+        <input
+          [type]="showPassword ? 'text' : 'password'"
+          [(ngModel)]="password"
+          name="password"
+          required
+        />
+        <button type="button" mat-icon-button class="button-eye" (click)="togglePasswordVisibility()">
+          <i class="bi" [ngClass]="showPassword ? 'bi-eye-slash' : 'bi-eye'"></i>
+        </button>
       </div>
-      <div class="form-group">
-        <label>Password:</label>
-        <input type="password" [(ngModel)]="password" name="password" required>
-      </div>
-      <button type="submit">Login</button>
-    </form>
-  </div>
-  
+    </div>
+    <button type="submit" (click)="login()" class="login-button">Login</button>
+  </form>
+</div>
+

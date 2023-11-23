@@ -3,6 +3,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { GlobalService } from './global.service';
 import { BuildModel } from '../model/build.model';
+import { BuildComponent } from '../pages/add-build/add-build.component'
 
 @Injectable({
   providedIn: 'root'
@@ -27,13 +28,24 @@ export class BuildService {
     return this.httpClient.get<BuildModel[]>(this.globalService.baseUrl+ this.controllerPath+'/GetListAsync').pipe();
   }
 
-  deleteAsync(id: string): Observable<BuildModel[]> {
-    const url = `${this.globalService.baseUrl}${this.controllerPath}/Delete/${id}`;
-    return this.httpClient.delete<BuildModel[]>(url);
+  getByIdAsync(id:string):Observable<BuildModel>{
+    const url = `${this.globalService.baseUrl}${this.controllerPath}/GetById/${id}`;
+    return this.httpClient.get<BuildModel>(url);
   }
  
+
+  deleteAsync(id: string): Observable<BuildModel> {
+    const url = `${this.globalService.baseUrl}${this.controllerPath}/Delete/${id}`;
+    return this.httpClient.delete<BuildModel>(url);
+  }
+ 
+  createBuildAsync(requestWithDevice: any): Observable<any> {
+    const url = `${this.globalService.baseUrl}${this.controllerPath}/CreateBuild`;
+    return this.httpClient.post(url, requestWithDevice);
+  }
+
   updateAsync(buildId: string, deviceName: string): Observable<BuildModel> {
-    const requestBody = { buildId, deviceName }; // Gönderilecek verileri oluşturun, gerekirse düzenleyin
+    const requestBody = { buildId, deviceName };
 
     return this.httpClient.post<BuildModel>(
       `${this.globalService.baseUrl}${this.controllerPath}/UpdateAsync/${buildId}`,

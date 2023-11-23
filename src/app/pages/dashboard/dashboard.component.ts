@@ -27,6 +27,7 @@ export class DashboardComponent implements OnInit {
 
   /** Sayfa Yüklendiğinde Çalışacak methodlar */
   ngOnInit(): void {
+    
     this.getBuildList();
     this.getCityList();
     this.getVoice();
@@ -92,6 +93,6 @@ export class DashboardComponent implements OnInit {
   goToUrl(url:string, data:any) {
     console.log(url);
     DashboardComponent.selectedRow=data;
-    this.router.navigateByUrl(url);
+    this.router.navigateByUrl(`${url}/${data.id}`);
   }
 }
